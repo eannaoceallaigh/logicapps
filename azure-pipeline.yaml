@@ -11,6 +11,13 @@ parameters:
     - deployment: 'terraform'
       environment: 'prod'
       service_connection: azure_subscription_1
+  - name: overrideAction
+    default: plan
+    values:
+      - plan
+      - apply
+      - destroy
+
 
 variables:
   - name: agentPool
@@ -55,9 +62,17 @@ stages:
               command: plan
               environmentServiceName: ${{ deployment.service_connection }}
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-          # - task: TerraformCLI@0
-          #   displayName: 'Apply'
-          #   condition: and(succeeded(), eq(variables.isMain, 'true'))
-          #   inputs:
-          #     command: apply
-          #     environmentServiceName: ${{ deployment.service_connection }}
+          - task: TerraformCLI@0
+            displayName: 'Apply'
+            condition: and(succeeded(), eq(variables.isMain, 'true'), eq(parameters.overrideAction, 'apply'))
+            inputs:
+              command: apply
+              environmentServiceName: ${{ deployment.service_connection }}
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+          - task: TerraformCLI@0
+            displayName: 'Destroy'
+            condition: and(succeeded(), eq(variables.isMain, 'true'), eq(parameters.overrideAction, 'destroy'))
+            inputs:
+              command: destroy
+              environmentServiceName: ${{ deployment.service_connection }}
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
