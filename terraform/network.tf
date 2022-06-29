@@ -32,3 +32,8 @@ resource "azurerm_private_endpoint" "logic_app" {
     private_dns_zone_ids = [azurerm_private_dns_zone.logic_app.id]
   }
 }
+
+resource "azurerm_private_dns_zone" "logic_app" {
+  name                = "privatelink.blob.core.windows.net"
+  resource_group_name = azurerm_resource_group.logic_app.name
+}
