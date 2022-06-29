@@ -13,18 +13,18 @@ resource "azurerm_storage_account" "logic_app" {
 
 resource "azurerm_storage_container" "logic_app" {
   name                  = "json"
-  storage_account_name  = azurerm_storage_account.logic_app
+  storage_account_name  = azurerm_storage_account.logic_app.name
   container_access_type = "private"
 }
 
 resource "azurerm_role_assignment" "logic_app" {
-  scope              = azurerm_storage_account.logic_app
+  scope              = azurerm_storage_account.logic_app.name
   role_definition_name = "Storage Blob Data Contributor"
   principal_id       = azurerm_logic_app_workflow.logic_app.identity[0].principal_id
 }
 
 resource "azurerm_role_assignment" "standard_logic_app" {
-  scope              = azurerm_storage_account.logic_app
+  scope              = azurerm_storage_account.logic_app.name
   role_definition_name = "Storage Blob Data Contributor"
   principal_id       = azurerm_logic_app_standard.logic_app.identity[0].principal_id
 }
