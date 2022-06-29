@@ -4,11 +4,13 @@ resource "azurerm_storage_account" "logic_app" {
   location                 = azurerm_resource_group.logic_app.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
+}
 
-    network_rules {
-        default_action             = "Deny"
-        virtual_network_subnet_ids = [azurerm_subnet.logic_app.id]
-    }
+resource "azurerm_storage_account_network_rules" "example" {
+  storage_account_id = azurerm_storage_account.example.id
+
+  default_action             = "Deny"
+  virtual_network_subnet_ids = [azurerm_subnet.logic_app.id]
 }
 
 resource "azurerm_storage_container" "logic_app" {
