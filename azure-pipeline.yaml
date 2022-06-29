@@ -43,7 +43,7 @@ stages:
               backendAzureRmResourceGroupName: 'terraform-state'
               backendAzureRmResourceGroupLocation: westeurope
               backendAzureRmStorageAccountName: ekterraformstate
-              backendAzureRmStorageAccountSku: LRS
+              backendAzureRmStorageAccountSku: Standard_LRS
               backendAzureRmContainerName: terraform
               backendAzureRmKey: terraform.tfstate
               allowTelemetryCollection: false
