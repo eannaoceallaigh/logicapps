@@ -19,7 +19,7 @@ resource "azurerm_private_endpoint" "logic_app" {
   name                = "logic-app-endpoint"
   location            = azurerm_resource_group.logic_app.location
   resource_group_name = azurerm_resource_group.logic_app.name
-  subnet_id           = azurerm_virtual_network.logic_app.virtual_network_subnet_ids[0]
+  subnet_id           = azurerm_virtual_network.logic_app.subnet.subnet1
 
   private_service_connection {
     name                              = "logic-app-psc"
