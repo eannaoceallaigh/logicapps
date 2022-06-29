@@ -23,7 +23,6 @@ stages:
     - stage: Terraform
       jobs:
         - job: Terraform
-          pool: ${{ variables.agentPool }}
           timeoutInMinutes: ${{ variables.timeoutInMinutes }}
           steps:
           - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
