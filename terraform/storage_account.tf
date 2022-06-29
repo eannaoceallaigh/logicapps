@@ -9,7 +9,7 @@ resource "azurerm_storage_account" "logic_app" {
         default_action             = "Deny"
         virtual_network_subnet_ids = [azurerm_subnet.logic_app.id]
         private_link_access {
-          
+          endpoint_resource_id = azurerm_storage_account.logic_app.id
         }
     }
 }
