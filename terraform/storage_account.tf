@@ -6,18 +6,18 @@ resource "azurerm_storage_account" "logic_app" {
   account_replication_type = "LRS"
 }
 
-data "http" "myip" {
-  url = "http://ifconfig.me"
-}
+# data "http" "myip" {
+#   url = "http://ifconfig.me"
+# }
 
-resource "azurerm_storage_account_network_rules" "logic_app" {
-  storage_account_id = azurerm_storage_account.logic_app.id
+# resource "azurerm_storage_account_network_rules" "logic_app" {
+#   storage_account_id = azurerm_storage_account.logic_app.id
 
-  default_action             = "Deny"
-  virtual_network_subnet_ids = [azurerm_subnet.logic_app.id]
-  ip_rules = [chomp(data.http.myip.body)]
-  bypass = ["AzureServices"]
-}
+#   default_action             = "Deny"
+#   virtual_network_subnet_ids = [azurerm_subnet.logic_app.id]
+#   ip_rules = [chomp(data.http.myip.body)]
+#   bypass = ["AzureServices"]
+# }
 
 resource "azurerm_storage_container" "logic_app" {
   name                  = "json"
