@@ -10,6 +10,7 @@ resource "azurerm_subnet" "logic_app" {
   resource_group_name  = azurerm_resource_group.logic_app.name
   virtual_network_name = azurerm_virtual_network.logic_app.name
   address_prefixes     = ["10.0.1.0/24"]
+  service_endpoints = "Microsoft.Storage"
 }
 
 resource "azurerm_private_endpoint" "logic_app" {
@@ -23,5 +24,6 @@ resource "azurerm_private_endpoint" "logic_app" {
     is_manual_connection              = true
     private_connection_resource_id = azurerm_storage_account.logic_app.id
     subresource_names = ["blob"]
+    request_message                   = "PL"
   }
 }
