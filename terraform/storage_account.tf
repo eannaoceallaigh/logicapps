@@ -26,5 +26,5 @@ resource "azurerm_role_assignment" "logic_app" {
 resource "azurerm_role_assignment" "standard_logic_app" {
   scope              = azurerm_storage_account.logic_app
   role_definition_name = "Storage Blob Data Contributor"
-  principal_id       = azurerm_logic_app_standard.logic_app.identity.principal_id
+  principal_id       = azurerm_logic_app_standard.logic_app.identity[0].principal_id
 }
