@@ -13,6 +13,8 @@ parameters:
       service_connection: azure_subscription_1
 
 variables:
+  - name: agentPool
+    value: default
   - name: timeoutInMinutes
     value: 60
   - name: isMain
@@ -23,6 +25,7 @@ stages:
     - stage: Terraform
       jobs:
         - job: Terraform
+          pool: ${{ variables.agentPool }}
           timeoutInMinutes: ${{ variables.timeoutInMinutes }}
           steps:
           - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
