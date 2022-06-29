@@ -21,6 +21,7 @@ resource "azurerm_private_endpoint" "logic_app" {
   private_service_connection {
     name                              = "logic-app-psc"
     is_manual_connection              = true
+    private_connection_resource_id = azurerm_storage_account.logic_app.id
     subresource_names = ["blob"]
   }
 }

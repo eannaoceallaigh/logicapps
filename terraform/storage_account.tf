@@ -8,9 +8,6 @@ resource "azurerm_storage_account" "logic_app" {
     network_rules {
         default_action             = "Deny"
         virtual_network_subnet_ids = [azurerm_subnet.logic_app.id]
-        private_link_access {
-          endpoint_resource_id = azurerm_storage_account.logic_app.id
-        }
     }
 }
 
@@ -23,7 +20,7 @@ resource "azurerm_storage_container" "logic_app" {
 resource "azurerm_role_assignment" "logic_app" {
   scope              = azurerm_storage_account.logic_app
   role_definition_name = "Storage Blob Data Contributor"
-  principal_id       = azurerm_logic_app_workflow.logic_app.identity.principal_id
+  principal_id       = azurerm_logic_app_workflow.logic_app.identity[0].principal_id
 }
 
 resource "azurerm_role_assignment" "standard_logic_app" {
