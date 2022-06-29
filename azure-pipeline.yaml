@@ -49,6 +49,7 @@ stages:
             inputs:
               command: plan
               environmentServiceName: ${{ deployment.service_connection }}
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
           # - task: TerraformCLI@0
           #   displayName: 'Apply'
           #   condition: and(succeeded(), eq(variables.isMain, 'true'))
