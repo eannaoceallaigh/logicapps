@@ -26,4 +26,9 @@ resource "azurerm_private_endpoint" "logic_app" {
     subresource_names = ["blob"]
     request_message                   = "PL"
   }
+
+  private_dns_zone_group {
+    name = "privatelink.blob.core.windows.net"
+    private_dns_zone_ids = [azurerm_private_dns_zone.logic_app.id]
+  }
 }
