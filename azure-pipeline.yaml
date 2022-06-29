@@ -1,0 +1,58 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - main
+
+parameters:
+  - name: environment_components
+    type: object
+    default:
+    - deployment: 'terraform'
+      environment: 'prod'
+      service_connection: azure_subscription_1
+
+variables:
+  - name: timeoutInMinutes
+    value: 60
+  - name: isMain
+    value: $[in(variables['Build.SourceBranch'], 'refs/heads/main', 'refs/heads/master' )]
+
+stages:
+  - ${{ each deployment in parameters.environment_components }}:  
+    - stage: Terraform
+      jobs:
+        - job: Terraform
+          pool: ${{ variables.agentPool }}
+          timeoutInMinutes: ${{ variables.timeoutInMinutes }}
+          steps:
+          - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+            displayName: 'Install Terraform'
+            inputs:
+              version: 1.20
+          - task: TerraformCLI@0
+            displayName: 'Init'
+            inputs:
+              command: init
+              environmentServiceName: ${{ deployment.service_connection }}
+              backendType: azurerm
+              backendServiceArm: 'azure_subscription_1'
+              ensureBackend: true
+              backendAzureRmResourceGroupName: 'terraform-state'
+              backendAzureRmResourceGroupLocation: westeurope
+              backendAzureRmStorageAccountName: ekterraformstate
+              backendAzureRmStorageAccountSku: LRS
+              backendAzureRmContainerName: terraform
+              backendAzureRmKey: terraform.tfstate
+              allowTelemetryCollection: false
+          - task: TerraformCLI@0
+            displayName: 'Plan'
+            inputs:
+              command: plan
+              environmentServiceName: ${{ deployment.service_connection }}
+          # - task: TerraformCLI@0
+          #   displayName: 'Apply'
+          #   condition: and(succeeded(), eq(variables.isMain, 'true'))
+          #   inputs:
+          #     command: apply
+          #     environmentServiceName: ${{ deployment.service_connection }}
