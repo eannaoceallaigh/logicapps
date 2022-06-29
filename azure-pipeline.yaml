@@ -47,6 +47,7 @@ stages:
               backendAzureRmContainerName: terraform
               backendAzureRmKey: terraform.tfstate
               allowTelemetryCollection: false
+              createBackend: false
           - task: TerraformCLI@0
             displayName: 'Plan'
             inputs:
