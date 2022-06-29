@@ -7,7 +7,7 @@ resource "azurerm_storage_account" "logic_app" {
 
     network_rules {
         default_action             = "Deny"
-        virtual_network_subnet_ids = [azurerm_subnet.example.id]
+        # virtual_network_subnet_ids = [azurerm_subnet.example.id]
         private_link_access {
           
         }
