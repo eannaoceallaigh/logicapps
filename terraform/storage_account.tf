@@ -1,5 +1,5 @@
 resource "azurerm_storage_account" "logic_app" {
-  name                     = "mylogicappsa"
+  name                     = "eklogicappsa"
   resource_group_name      = azurerm_resource_group.logic_app.name
   location                 = azurerm_resource_group.logic_app.location
   account_tier             = "Standard"
