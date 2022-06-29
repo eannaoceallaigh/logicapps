@@ -48,6 +48,7 @@ stages:
               backendAzureRmKey: terraform.tfstate
               allowTelemetryCollection: false
               createBackend: false
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
           - task: TerraformCLI@0
             displayName: 'Plan'
             inputs:
