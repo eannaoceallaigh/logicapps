@@ -47,7 +47,8 @@ resource "azurerm_logic_app_action_http" "example" {
                     },
                                           "queries": {
                         "api-version": "2016-10-01"
-                    },
+                    }
+                    }
 }
 BODY
   }
