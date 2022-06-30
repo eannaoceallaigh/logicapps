@@ -1,5 +1,5 @@
 trigger:
-  batch: true
+  batch: false
   branches:
     include:
     - main
@@ -58,6 +58,7 @@ stages:
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
           - task: TerraformCLI@0
             displayName: 'Plan'
+            condition: and(succeeded(), eq('${{ parameters.overrideAction }}', 'apply'))
             inputs:
               command: plan
               environmentServiceName: ${{ deployment.service_connection }}
