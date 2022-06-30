@@ -58,7 +58,7 @@ stages:
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
           - task: TerraformCLI@0
             displayName: 'Plan'
-            condition: and(succeeded(), eq('${{ parameters.overrideAction }}', 'apply'))
+            condition: and(succeeded(), eq('${{ parameters.overrideAction }}', 'plan'))
             inputs:
               command: plan
               environmentServiceName: ${{ deployment.service_connection }}
