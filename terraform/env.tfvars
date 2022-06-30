@@ -1,4 +1,0 @@
-storage_account_name: ekterraformstate
-backendAzureRmStorageAccountSku: Standard_LRS
-container_name: terraform
-key: terraform.tfstate
