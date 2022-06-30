@@ -1,5 +1,10 @@
 terraform {
-  backend "azurerm" {}
+  backend "azurerm" {
+    resource_group_name  = "terraform-state"
+    storage_account_name = "ekterraformstate"
+    container_name       = "terraform"
+    key                  = "terraform.tfstate"
+  }
 
   required_version = ">= 1.2.0"
   required_providers {
