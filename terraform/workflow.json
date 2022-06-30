@@ -1,0 +1,60 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "HTTP": {
+                "inputs": {
+                    "authentication": {
+                        "audience": "https://vault.azure.net",
+                        "type": "ManagedServiceIdentity"
+                    },
+                    "method": "GET",
+                    "queries": {
+                        "api-version": "2016-10-01"
+                    },
+                    "uri": "@parameters('keyVaultSecret')"
+                },
+                "runAfter": {},
+                "runtimeConfiguration": {
+                    "secureData": {
+                        "properties": [
+                            "outputs"
+                        ]
+                    }
+                },
+                "type": "Http"
+            },
+            "Response": {
+                "inputs": {
+                    "body": "Your secret was retrieved",
+                    "statusCode": 200
+                },
+                "kind": "Http",
+                "runAfter": {
+                    "HTTP": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Response"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "keyVaultSecret": {
+                "defaultValue": "",
+                "type": "String"
+            }
+        },
+        "triggers": {
+            "manual": {
+                "inputs": {
+                    "schema": {}
+                },
+                "kind": "Http",
+                "type": "Request"
+            }
+        }
+    },
+    "parameters": {}
+}
