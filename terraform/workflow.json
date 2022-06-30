@@ -1,15 +1,22 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {                                                                                                                            
-            "keyVaultSecret": {"type": "string"}                                                                                                                                                                                                  
+    "parameters": {
+        "workflows_logic_app_name": {
+            "defaultValue": "ek-logic-app",
+            "type": "String"
+        },
+        "keyVaultSecret": {
+            "defaultValue": "",
+            "type": "String"
+        }
     },
     "variables": {},
     "resources": [
         {
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
-            "name": "ek-logic-app",
+            "name": "[parameters('workflows_logic_app_name')]",
             "location": "westeurope",
             "identity": {
                 "type": "SystemAssigned"
@@ -20,7 +27,7 @@
                     "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
                     "contentVersion": "1.0.0.0",
                     "parameters": {
-                        "keyVaultSecret": {
+                        "keyaultSecret": {
                             "defaultValue": "\"\"",
                             "type": "String"
                         }
@@ -48,12 +55,12 @@
                                 "queries": {
                                     "api-version": "2016-10-01"
                                 },
-                                "uri": "@parameters('keyVaultSecret')"
+                                "uri": "[parameters('keyVaultSecret')]"
                             }
                         }
                     }
                 },
-               "parameters": {}  
+                "parameters": {}
             }
         }
     ]
