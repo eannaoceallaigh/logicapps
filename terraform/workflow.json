@@ -1,60 +1,77 @@
 {
-    "definition": {
-        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
-        "actions": {
-            "HTTP": {
-                "inputs": {
-                    "authentication": {
-                        "audience": "https://vault.azure.net",
-                        "type": "ManagedServiceIdentity"
-                    },
-                    "method": "GET",
-                    "queries": {
-                        "api-version": "2016-10-01"
-                    },
-                    "uri": "@parameters('keyVaultSecret')"
-                },
-                "runAfter": {},
-                "runtimeConfiguration": {
-                    "secureData": {
-                        "properties": [
-                            "outputs"
-                        ]
-                    }
-                },
-                "type": "Http"
-            },
-            "Response": {
-                "inputs": {
-                    "body": "Your secret was retrieved",
-                    "statusCode": 200
-                },
-                "kind": "Http",
-                "runAfter": {
-                    "HTTP": [
-                        "Succeeded"
-                    ]
-                },
-                "type": "Response"
-            }
-        },
-        "contentVersion": "1.0.0.0",
-        "outputs": {},
-        "parameters": {
-            "keyVaultSecret": {
-                "defaultValue": "",
-                "type": "String"
-            }
-        },
-        "triggers": {
-            "manual": {
-                "inputs": {
-                    "schema": {}
-                },
-                "kind": "Http",
-                "type": "Request"
-            }
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workflows_logic_app_name": {
+            "defaultValue": "",
+            "type": "String"
         }
     },
-    "parameters": {}
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('workflows_logic_app_name')]",
+            "location": "westeurope",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "triggers": {
+                        "manual": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "actions": {
+                        "HTTP": {
+                            "runAfter": {},
+                            "type": "Http",
+                            "inputs": {
+                                "authentication": {
+                                    "audience": "https://vault.azure.net",
+                                    "type": "ManagedServiceIdentity"
+                                },
+                                "method": "GET",
+                                "queries": {
+                                    "api-version": "2016-10-01"
+                                },
+                                "uri": "@parameters('keyVaultSecret')"
+                            },
+                            "runtimeConfiguration": {
+                                "secureData": {
+                                    "properties": [
+                                        "outputs"
+                                    ]
+                                }
+                            }
+                        },
+                        "Response": {
+                            "runAfter": {
+                                "HTTP": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Response",
+                            "kind": "Http",
+                            "inputs": {
+                                "body": "Your secret was retrieved",
+                                "statusCode": 200
+                            }
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {}
+            }
+        }
+    ]
 }
