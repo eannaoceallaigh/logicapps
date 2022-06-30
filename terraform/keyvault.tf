@@ -11,12 +11,6 @@ resource "azurerm_key_vault" "logic_app" {
   sku_name = "standard"
 }
 
-resource "azurerm_role_assignment" "ado_kv_access" {
-  scope              = azurerm_resource_group.logic_app.id
-  role_definition_name = "Key Vault Secrets Officer"
-  principal_id       = data.azurerm_client_config.current.object_id
-}
-
 resource "azurerm_role_assignment" "logic_app_kv_access" {
   scope              = azurerm_key_vault.logic_app.id
   role_definition_name = "Key Vault Secrets User"
@@ -29,7 +23,7 @@ resource "random_password" "password" {
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
-resource "azurerm_key_vault_secret" "mySecret" {
+resource "azurerm_key_vault_secret" "api_key" {
   name         = "notARealSecret"
   value        = random_password.password.result
   key_vault_id = azurerm_key_vault.logic_app.id

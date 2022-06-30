@@ -1,23 +1,10 @@
 resource "azurerm_storage_account" "logic_app" {
-  name                     = "eklogicappsa2022"
+  name                     = "eklogicappsa"
   resource_group_name      = azurerm_resource_group.logic_app.name
   location                 = azurerm_resource_group.logic_app.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
-
-# data "http" "myip" {
-#   url = "http://ifconfig.me"
-# }
-
-# resource "azurerm_storage_account_network_rules" "logic_app" {
-#   storage_account_id = azurerm_storage_account.logic_app.id
-
-#   default_action             = "Deny"
-#   virtual_network_subnet_ids = [azurerm_subnet.logic_app.id]
-#   ip_rules = [chomp(data.http.myip.body)]
-#   bypass = ["AzureServices"]
-# }
 
 resource "azurerm_storage_container" "logic_app" {
   name                  = "json"
