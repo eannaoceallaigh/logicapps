@@ -56,6 +56,13 @@
                                     "api-version": "2016-10-01"
                                 },
                                 "uri": "[parameters('keyVaultSecret')]"
+                            },
+                                                        "runtimeConfiguration": {
+                                "secureData": {
+                                    "properties": [
+                                        "outputs"
+                                    ]
+                                }
                             }
                         }
                     }
