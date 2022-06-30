@@ -15,7 +15,7 @@ locals {
   }
 }
 
-resource "azurerm_group_template_deployment" "logicApp" {
+resource "azurerm_resource_group_template_deployment" "logicApp" {
   resource_group_name = azurerm_resource_group.logic_app.name
   deployment_mode     = "Incremental"
   name                = "logic-app-deployment"
