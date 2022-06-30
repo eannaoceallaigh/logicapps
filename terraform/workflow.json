@@ -1,18 +1,13 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-        "workflows_logic_app_name": {
-            "defaultValue": "",
-            "type": "String"
-        }
-    },
+    "parameters": {},
     "variables": {},
     "resources": [
         {
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
-            "name": "[parameters('workflows_logic_app_name')]",
+            "name": "ek-logic-app",
             "location": "westeurope",
             "identity": {
                 "type": "SystemAssigned"
@@ -24,12 +19,12 @@
                     "contentVersion": "1.0.0.0",
                     "parameters": {
                         "keyVaultSecret": {
-                            "defaultValue": "https://logic-app-keyvault.vault.azure.net/notARealSecret",
+                            "defaultValue": "\"\"",
                             "type": "String"
                         }
                     },
                     "triggers": {
-                        "manual": {
+                        "http-trigger": {
                             "type": "Request",
                             "kind": "Http",
                             "inputs": {
@@ -38,7 +33,7 @@
                         }
                     },
                     "actions": {
-                        "HTTP": {
+                        "Get KyeVault Secret": {
                             "runAfter": {},
                             "type": "Http",
                             "inputs": {
@@ -46,35 +41,15 @@
                                     "audience": "https://vault.azure.net",
                                     "type": "ManagedServiceIdentity"
                                 },
+                                "headers": {},
                                 "method": "GET",
                                 "queries": {
                                     "api-version": "2016-10-01"
                                 },
                                 "uri": "@parameters('keyVaultSecret')"
-                            },
-                            "runtimeConfiguration": {
-                                "secureData": {
-                                    "properties": [
-                                        "outputs"
-                                    ]
-                                }
-                            }
-                        },
-                        "Response": {
-                            "runAfter": {
-                                "HTTP": [
-                                    "Succeeded"
-                                ]
-                            },
-                            "type": "Response",
-                            "kind": "Http",
-                            "inputs": {
-                                "body": "Your secret was retrieved",
-                                "statusCode": 200
                             }
                         }
-                    },
-                    "outputs": {}
+                    }
                 },
                 "parameters": {}
             }
