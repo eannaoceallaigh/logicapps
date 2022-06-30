@@ -23,8 +23,14 @@ resource "azurerm_role_assignment" "logic_app_kv_access" {
   principal_id       = azurerm_logic_app_workflow.logic_app.identity[0].principal_id
 }
 
+resource "random_password" "password" {
+  length           = 16
+  special          = true
+  override_special = "!#$%&*()-_=+[]{}<>:?"
+}
+
 resource "azurerm_key_vault_secret" "mySecret" {
   name         = "notARealSecret"
-  value        = "seriously, this is not a real secret"
+  value        = random_password.password.result
   key_vault_id = azurerm_key_vault.logic_app.id
 }
