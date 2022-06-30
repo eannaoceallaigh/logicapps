@@ -5,6 +5,15 @@
         "workflows_logic_app_name": {
             "defaultValue": "",
             "type": "String"
+        },
+         "keyVaultSecret": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        },
+         "location": {
+            "defaultValue": "",
+            "type": "String"
         }
     },
     "variables": {},
@@ -13,7 +22,7 @@
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
             "name": "[parameters('workflows_logic_app_name')]",
-            "location": "westeurope",
+            "location": "@parameters('location')",
             "identity": {
                 "type": "SystemAssigned"
             },
