@@ -14,5 +14,9 @@ terraform {
 
 
 provider "azurerm" {
-  features {}
+  features {
+    template_deployment {
+      delete_nested_items_during_deletion = false
+    }
+  }
 }
