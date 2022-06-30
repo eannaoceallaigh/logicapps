@@ -20,3 +20,9 @@ resource "azurerm_key_vault_access_policy" "logic_app" {
     "List"
   ]
 }
+
+resource "azurerm_key_vault_secret" "example" {
+  name         = "notARealSecret"
+  value        = "seriously, this is not a real secret"
+  key_vault_id = azurerm_key_vault.logic_app.id
+}
