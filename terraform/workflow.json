@@ -5,14 +5,6 @@
         "workflows_logic_app_name": {
             "defaultValue": "",
             "type": "String"
-        },
-         "keyVaultSecret": {
-            "defaultValue": "",
-            "type": "String"
-        },
-         "location": {
-            "defaultValue": "westeurope",
-            "type": "String"
         }
     },
     "variables": {},
@@ -30,6 +22,12 @@
                 "definition": {
                     "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
                     "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "keyVaultSecret": {
+                            "defaultValue": "https://logic-app-keyvault.vault.azure.net/notARealSecret",
+                            "type": "String"
+                        }
+                    },
                     "triggers": {
                         "manual": {
                             "type": "Request",
