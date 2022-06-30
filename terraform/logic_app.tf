@@ -10,8 +10,8 @@ resource "azurerm_logic_app_workflow" "logic_app" {
 
 locals {
   parameters_content = {
-    keyVaultSecret = "https://${azurerm_key_vault.logic_app.name}.vault.azure.net/${azurerm_key_vault_secret.mySecret.name}"
-    workflows_logic_app_name = azurerm_logic_app_workflow.logic_app.name
+    "keyVaultSecret" = "https://${azurerm_key_vault.logic_app.name}.vault.azure.net/${azurerm_key_vault_secret.mySecret.name}"
+    "workflows_logic_app_name" = azurerm_logic_app_workflow.logic_app.name
   }
 }
 
