@@ -1,0 +1,6 @@
+backendAzureRmResourceGroupName: 'terraform-state'
+backendAzureRmResourceGroupLocation: westeurope
+backendAzureRmStorageAccountName: ekterraformstate
+backendAzureRmStorageAccountSku: Standard_LRS
+backendAzureRmContainerName: terraform
+backendAzureRmKey: terraform.tfstate
