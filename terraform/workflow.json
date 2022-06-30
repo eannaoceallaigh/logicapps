@@ -53,10 +53,6 @@
                         }
                     }
                 },
-               "parameters"              = {                                                                                                                                                                                                           
-                "keyVaultSecret"          = "${local.keyVaultSecret}"                                                                                                                                                                                
-        }  
-            }
-        }
+
     ]
 }
