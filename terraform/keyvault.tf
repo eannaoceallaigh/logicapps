@@ -6,32 +6,21 @@ resource "azurerm_key_vault" "logic_app" {
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days  = 7
   purge_protection_enabled    = false
+  enable_rbac_authorization = true
 
   sku_name = "standard"
 }
 
-resource "azurerm_key_vault_access_policy" "logic_app_identity" {
-  key_vault_id = azurerm_key_vault.logic_app.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = azurerm_logic_app_workflow.logic_app.identity[0].principal_id
-
-  secret_permissions = [
-    "Get",
-    "List"
-  ]
+resource "azurerm_role_assignment" "ado_kv_access" {
+  scope              = azurerm_key_vault.logic_app.id
+  role_definition_name = "Key Vault Secrets Officer"
+  principal_id       = data.azurerm_client_config.current.object_id
 }
 
-resource "azurerm_key_vault_access_policy" "ado_identity" {
-  key_vault_id = azurerm_key_vault.logic_app.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = data.azurerm_client_config.current.object_id
-
-  secret_permissions = [
-    "Get",
-    "List",
-    "Set",
-    "Delete"
-  ]
+resource "azurerm_role_assignment" "logic_app_kv_access" {
+  scope              = azurerm_key_vault.logic_app.id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id       = azurerm_logic_app_workflow.logic_app.identity[0].principal_id
 }
 
 resource "azurerm_key_vault_secret" "mySecret" {
